@@ -4,9 +4,6 @@ import sys
 import random
 
 
-if(len(sys.argv) == 1):
-    raise Exception("You need to pass in a command to the program!")
-
 imported_word_list = open("words.txt", "r")
 
 word_list = list(imported_word_list)
@@ -17,12 +14,11 @@ i = 1
 
 
 def update_password(pwd, num):
-    w_list = word_list.copy()
-
-    for i in range(0, int(num)):
-        pwd.append(random.choice(w_list))
-
-    return pwd
+	w_list = word_list.copy()
+	password_list = []
+	for i in range(0, int(num)):
+		password_list.append(random.choice(w_list))
+	return password_list
 
 
 def capitalize_password(pwd, num):
@@ -67,6 +63,8 @@ def show_password(pwd):
 
     return visible_password
 
+if(len(sys.argv) == 1):
+    password = update_password(password, 4)
 
 while(i <= len(sys.argv)-1):
 
@@ -124,12 +122,12 @@ while(i <= len(sys.argv)-1):
                 password = add_random_numbers(password, sys.argv[i+1])
                 i = i+2
 
-        elif(cur_value == "s" or cur_value == "--symbols"):
+        elif(cur_value == "-s" or cur_value == "--symbols"):
             if(str(sys.argv[i+1]).isnumeric() == False):
                 i = i+1
             elif(str(sys.argv[i+1]).isnumeric() == True):
                 password = add_random_symbols(password, sys.argv[i+1])
                 i = i+2
-print("\n")
-print(show_password(password))
+
+print (show_password(password))
 
