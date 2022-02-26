@@ -8,17 +8,29 @@ imported_word_list = open("words.txt", "r")
 
 word_list = list(imported_word_list)
 
-password = []
-
 i = 1
+
+password = []
 
 
 def update_password(pwd, num):
-	w_list = word_list.copy()
-	password_list = []
-	for i in range(0, int(num)):
-		password_list.append(random.choice(w_list))
-	return password_list
+    w_list = word_list.copy()
+    password_list = []
+
+    if(pwd == []):
+        for i in range(0, int(num)):
+            password_list.append(random.choice(w_list))
+    else:
+
+        if(int(num) <= len(pwd)):
+            for i in range(0, int(num)):
+                password_list.append(pwd[i])
+        else:
+            for word in pwd:
+                password_list.append(word)
+            for i in range(0, int(num) - len(pwd)):
+                password_list.append(random.choice(w_list))
+    return password_list
 
 
 def capitalize_password(pwd, num):
@@ -63,8 +75,8 @@ def show_password(pwd):
 
     return visible_password
 
-if(len(sys.argv) == 1):
-    password = update_password(password, 4)
+
+password = update_password(password, 4)
 
 while(i <= len(sys.argv)-1):
 
@@ -128,6 +140,5 @@ while(i <= len(sys.argv)-1):
             elif(str(sys.argv[i+1]).isnumeric() == True):
                 password = add_random_symbols(password, sys.argv[i+1])
                 i = i+2
-
-print (show_password(password))
-
+print("\n")
+print(show_password(password))
