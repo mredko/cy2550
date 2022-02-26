@@ -1,0 +1,135 @@
+#!/bin/python3
+
+import sys
+import random
+
+
+if(len(sys.argv) == 1):
+    raise Exception("You need to pass in a command to the program!")
+
+imported_word_list = open("words.txt", "r")
+
+word_list = list(imported_word_list)
+
+password = []
+
+i = 1
+
+
+def update_password(pwd, num):
+    w_list = word_list.copy()
+
+    for i in range(0, int(num)):
+        pwd.append(random.choice(w_list))
+
+    return pwd
+
+
+def capitalize_password(pwd, num):
+
+    for i in range(0, int(num)):
+        pwd[i] = pwd[i].capitalize()
+
+    return pwd
+
+
+def add_random_numbers(pwd, num):
+
+    password_length = len(pwd)
+
+    for i in range(0, int(num)):
+        random_index = random.randint(0, password_length-1)
+        random_number = random.randint(0, 10)
+        pwd.insert(random_index, random_number)
+
+    return pwd
+
+
+def add_random_symbols(pwd, num):
+
+    password_length = len(pwd)
+
+    symbol_list = ["~", "!", "@", "#", "$", "%", "^", "&", "*", ".", ":", ";"]
+
+    for i in range(0, int(num)):
+        random_index = random.randint(0, password_length-1)
+        random_symbol = random.choice(symbol_list)
+        pwd.insert(random_index, random_symbol)
+
+    return pwd
+
+
+def show_password(pwd):
+    visible_password = ""
+
+    for word in pwd:
+        visible_password = visible_password + str(word).strip()
+
+    return visible_password
+
+
+while(i <= len(sys.argv)-1):
+
+    cur_value = sys.argv[i]
+
+    if(i == len(sys.argv)-1):
+        if(cur_value == "-h" or cur_value == "--help"):
+            print("optional arguments: \n\n    -h, --help \nshow this help message and exists \n\n -w WORDS, --words WORDS \ninclude WORDS words in the password (default=4) \n\n -c CAPS, --caps CAPS \ncapitalize the first letter of CAPS random words (default=0) \n\n -n NUMBERS, --numbers NUMBERS \ninsert NUMBERS random numbers in the password (default=0) \n\n -s SYMBOLS, --symbols SYMBOLS random symbols in the password (default=0)")
+            i = i+1
+
+        elif(cur_value == "-w" or cur_value == "--words"):
+            password = update_password(password, 4)
+            i = i+1
+
+        elif(cur_value == "-c" or cur_value == "--caps"):
+            i = i+1
+
+        elif(cur_value == "-n" or cur_value == "--numbers"):
+            i = i+1
+
+        elif(cur_value == "-s" or cur_value == "--symbols"):
+            i = i+1
+    else:
+        if(cur_value == "-h" or cur_value == "--help"):
+            print("optional arguments:\n\n -h. --help \nshow this help message and exit" +
+                  "\n\n -w WORDS, --words WORDS \ninclude WORDS words" +
+                  "\n\n -c CAPS, --caps CAPS \ncapitalize the first letter of CAPS words (default=0)" +
+                  "\n\n -n NUMBERS, --numbers NUMBERS \ninclude NUMBERS random numbers" +
+                  "\n\n -s SYMBOLS, --symbols SYMBOLS random symbols in the password (default=0)")
+            i = i+1
+
+        elif(cur_value == "-w" or cur_value == "--words"):
+            if(str(sys.argv[i+1]).isnumeric() == False):
+                pasword = update_password(password, 4)
+                i = i+1
+            elif(str(sys.argv[i+1]).isnumeric() == True):
+                password = update_password(password, sys.argv[i+1])
+                i = i+2
+
+        elif(cur_value == "-c" or cur_value == "--caps"):
+            if(str(sys.argv[i+1]).isnumeric() == False):
+                i = i+1
+            elif(str(sys.argv[i+1]).isnumeric() == True):
+                if(int(sys.argv[i+1]) > len(password)):
+                    raise Exception(
+                        "You do not have the indicated amount of words in your password to capitalize")
+                else:
+                    password = capitalize_password(password, sys.argv[i+1])
+                    i = i+2
+
+        elif(cur_value == "-n" or cur_value == "--numbers"):
+            if(str(sys.argv[i+1]).isnumeric() == False):
+                i = i+1
+            elif(str(sys.argv[i+1]).isnumeric() == True):
+                password = add_random_numbers(password, sys.argv[i+1])
+                i = i+2
+
+        elif(cur_value == "s" or cur_value == "--symbols"):
+            if(str(sys.argv[i+1]).isnumeric() == False):
+                i = i+1
+            elif(str(sys.argv[i+1]).isnumeric() == True):
+                password = add_random_symbols(password, sys.argv[i+1])
+                i = i+2
+print("\n")
+print(show_password(password))
+
