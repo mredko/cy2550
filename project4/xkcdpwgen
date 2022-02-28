@@ -140,5 +140,5 @@ while(i <= len(sys.argv)-1):
             elif(str(sys.argv[i+1]).isnumeric() == True):
                 password = add_random_symbols(password, sys.argv[i+1])
                 i = i+2
-print("\n")
+
 print(show_password(password))
