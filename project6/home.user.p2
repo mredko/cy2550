@@ -1,0 +1,23 @@
+# Last Modified: Thu Mar 24 17:29:45 2022 
+#include <tunables/global>
+
+/home/mredko/p2 flags=(audit) {
+  #include <abstractions/user-tmp>
+
+
+  /etc/timezone r,
+  /etc/hostid r,
+  /etc/passwd r,
+  /etc/hosts r,
+  /home/mredko/p2 mr,
+  owner/home/mredko/.project2/config w,
+  /var/log/syslog wr,
+  /proc/uptime r,
+  /home/mredko/template r,
+  network tcp,
+  /{usr/,}lib{,32,64}/**.so* mr,
+  /proc/filesystems r,
+  /proc/cpuinfo r,
+
+}
+
